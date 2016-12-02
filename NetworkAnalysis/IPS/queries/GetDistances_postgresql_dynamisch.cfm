@@ -1,12 +1,4 @@
-﻿<!--- Postgresql extension:
-create extension cube;
-create extension earthdistance;
-select (point(-0.1277,51.5073) <@> point(-74.006,40.7144)) as distance;
-
-note: convert to kilometers via *0.621371192
---->
-
-<cfparam name="distance" default = "">
+﻿<cfparam name="distance" default = "">
 <cfparam name="site" default = "">
 <cfparam name="selectpottername" default = "">
 <cfparam name="selectdie" default = "">
@@ -46,7 +38,7 @@ note: convert to kilometers via *0.621371192
 	<cfinclude template= "ErrorMessageMissingSelectDie.cfm">
 </cfif>
 
-<cfquery name = "NumberOfDiesPotter" datasource ="IPS">
+<cfquery name = "NumberOfDiesPotter" datasource ="xxx">
 SELECT COUNT(*) AS tempdies FROM (select pottername, die
 from tbldie
 where pottername = '#selectPottername#'
@@ -54,7 +46,7 @@ AND die NOT LIKE '%- %'
 AND die NOT LIKE '%or%') AS tmp;
 </cfquery>
 
-<cfquery name = "NumberOfPotsPotter" datasource ="IPS">
+<cfquery name = "NumberOfPotsPotter" datasource ="xxx">
 SELECT COUNT(*) AS AllExportedPotsThisPotter FROM (select pottername, die
 from tbldistribution
 where pottername = '#selectPottername#'
@@ -67,7 +59,7 @@ AND die NOT LIKE '%or%') AS tmp
 <cfset tmpAllExportedPotsThisPotter = "#AllExportedPotsThisPotter#">
 </cfoutput>
 
-<cfquery name = "GetAllExport" datasource ="IPS">
+<cfquery name = "GetAllExport" datasource ="xxx">
 SELECT COUNT(*) AS TotalExport FROM (select productioncentre, site, pottername, die
 from tbldistribution
 WHERE 0 = 0
@@ -88,7 +80,7 @@ AND site <> 'Unknown'
 </cfoutput>
 
 
-<cfquery name = "TotalNumberOfPotsFromSite" datasource ="IPS">
+<cfquery name = "TotalNumberOfPotsFromSite" datasource ="xxx">
 SELECT site, SUM(sumsite) AS totalpotsfromthissite FROM 
 (
 SELECT DISTINCT productioncentre, site, number, SUM(number) AS sumsite
@@ -118,7 +110,7 @@ GROUP BY site
 
 
 
-<cfquery name="getCoordinatesAndQuantities" datasource ="IPS">
+<cfquery name="getCoordinatesAndQuantities" datasource ="xxx">
 SELECT pottername, <cfif selectdie NEQ "">die, </cfif> site, coordinate1, coordinate2, SUM(summevonnumber) AS totalpotsofthispotterfromsite FROM (
 SELECT DISTINCT productioncentre, pottername, <cfif selectdie NEQ "">die, </cfif> site, coordinate1, coordinate2, SUM(number) AS summevonnumber
 FROM tbldistribution
@@ -403,7 +395,7 @@ Names on Terra Sigillata</h2>
 				
 				
 				
-				<cfquery name="straightPostgreSQL" datasource="IPS">
+				<cfquery name="straightPostgreSQL" datasource="xxx">
 				select (point(#subcoordinate1#, #subcoordinate2#) <@> point(#tmpcoordinate1#, #tmpcoordinate2#)) as distance;
 				</cfquery>
 
